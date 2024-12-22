@@ -1,0 +1,25 @@
+.fileContextButton {
+    background-color: #363545;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    height: 30px;
+}
+
+.fileContextButton:hover {
+    background-color: #4d4c4a;
+}
+
+.fileContextOptionsWrapper {
+    width: 120px;
+    position: fixed;
+    z-index: 1;
+    border: 1.5px solid #363545;
+    background-color: "black";
+    color: "white";
+    padding: "5px";
+    z-index: "10";
+}
