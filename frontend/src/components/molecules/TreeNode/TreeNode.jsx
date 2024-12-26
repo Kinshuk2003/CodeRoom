@@ -36,6 +36,7 @@ export const TreeNode = ({fileFolderData}) => {
         console.log("Reading file", fileFolderData);
         editorSocket.emit("readFile", {
             fileOrFolderPath: fileFolderData.path,
+            fileOrFolderName: fileFolderData.name
         });
     }
 

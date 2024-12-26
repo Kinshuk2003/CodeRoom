@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore";
 import { useEditorSocketStore } from "../store/editorSocketStore";
 import { io } from 'socket.io-client';
+import { BrowserTerminal } from "../components/molecules/BrowserTerminal/BrowserTerminal";
+import { useTerminalSocketStore } from "../store/terminalSocketStore";
 
 
 export default function ProjectPlayground() {
@@ -13,6 +15,7 @@ export default function ProjectPlayground() {
     const {projectId: projectIdParam} = useParams();
     const {projectId, setProjectId} = useTreeStructureStore();
     const {setEditorSocket} = useEditorSocketStore();
+    const {setTerminalSocket} = useTerminalSocketStore();
 
     useEffect(() => {
         const editorSocketConn = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
@@ -21,9 +24,12 @@ export default function ProjectPlayground() {
             }
         });
 
+        const ws = new WebSocket(`ws://localhost:3000/terminal?projectId=${projectIdParam}`);
+        setTerminalSocket(ws);
+
         setEditorSocket(editorSocketConn);
         setProjectId(projectIdParam);
-    }, []);
+    }, [setProjectId, projectIdParam, setEditorSocket, setTerminalSocket]);
 
     return (
     <>
@@ -49,13 +55,17 @@ export default function ProjectPlayground() {
             )}
             {/* <div>
             <div>
-                <EditorButton isActive={true}/>
-                <EditorButton />
-            </div>
+                
             </div> */}
             <EditorComponent/>
+
+            
         </div>
-        
+        <EditorButton isActive={true}/>
+        <EditorButton />
+        <div>
+            <BrowserTerminal/>
+        </div>
     </>
 
     )

@@ -11,8 +11,9 @@ export const useEditorSocketStore = create((set) => ({
 
 
         incomingSocket?.on('readFileSuccess', (data) => {
-            console.log(data);
-            ActiveFileTabSetter(data.path, data.data);
+            console.log("Read Success socket", data);
+            const fileExtension = data.path.split('.').pop();
+            ActiveFileTabSetter(data.path, data.data, fileExtension);
         });
 
         incomingSocket?.on('writeFileSuccess', (data) => {
