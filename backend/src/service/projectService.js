@@ -13,6 +13,7 @@ export const createProjectService = async () => {
         console.log(projectId);
         await fs.mkdir(`.\\projects\\${projectId}`);
         // After this call the npm create vite project command inside the project folder.
+        console.log("react project command", REACT_PROJECT_COMMAND);
         const { stdout, stderr } = await execPromisified(REACT_PROJECT_COMMAND,
             {
                 cwd: `.\\projects\\${projectId}`,

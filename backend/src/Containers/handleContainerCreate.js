@@ -1,5 +1,4 @@
 import Docker from 'dockerode';
-// import path from 'path';
 const docker = new Docker();
 
 export const listContainer = async () => {
@@ -12,7 +11,7 @@ export const listContainer = async () => {
     })
 }
 
-export const handleContainerCreate = async (projectId, terminalSocket, req, tcpSocket, head) => {
+export const handleContainerCreate = async (projectId, terminalSocket) => {
     console.log("Project id received for container create", projectId);
     try {
 
@@ -20,7 +19,6 @@ export const handleContainerCreate = async (projectId, terminalSocket, req, tcpS
         const existingContainer = await docker.listContainers({
             name: projectId
         });
-
 
         console.log("Existing container", existingContainer);
 
@@ -58,8 +56,7 @@ export const handleContainerCreate = async (projectId, terminalSocket, req, tcpS
                             "HostPort": "0" // random port will be assigned by docker
                         }
                     ]
-                },
-                
+                }, 
             }
         });
     
@@ -77,15 +74,10 @@ export const handleContainerCreate = async (projectId, terminalSocket, req, tcpS
 
         return container;
 
-
-
     } catch(error) {
         console.log("Error while creating container", error);
     }
-
-
 }
-
 
 export async function getContainerPort(containerName) {
     const container = await docker.listContainers({
@@ -101,6 +93,5 @@ export async function getContainerPort(containerName) {
             console.log("port not present");
             return undefined;
         }
-        
     }
 }
