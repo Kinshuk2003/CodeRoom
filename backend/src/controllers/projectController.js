@@ -1,14 +1,18 @@
 import { createProjectService, getProjectTreeService } from '../service/projectService.js';
 
 export async function createProjectController(req, res) {
+    try {
     
-    const { stdout, stderr, projectId } = await createProjectService();
-    
-    if (stderr) {
-        return res.status(500).json({ message: stderr });
-    }
+        const { stdout, stderr, projectId } = await createProjectService();
+        
+        if (stderr) {
+            return res.status(500).json({ message: stderr });
+        }
 
-    return res.status(200).json({ message: "Project created", projectId: projectId });
+        return res.status(200).json({ message: "Project created", projectId: projectId });
+    }catch (error) {
+        return res.status(500).json({ message: error });
+    }
 }
 
 

@@ -11,37 +11,41 @@ import { useTerminalSocketStore } from "../store/terminalSocketStore";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import "./ProjectPlayground.css";
+import { usePortStore } from "../store/portStore";
+import { Browser } from "../components/organisms/Browser/Browser";
 
 
 export default function ProjectPlayground() {
     
     const {projectId: projectIdParam} = useParams();
     const {projectId, setProjectId} = useTreeStructureStore();
-    const {setEditorSocket} = useEditorSocketStore();
+    const {setEditorSocket, editorSocket} = useEditorSocketStore();
     const { terminalSocket, setTerminalSocket } = useTerminalSocketStore();
+    const {port} = usePortStore();
 
+    
     useEffect(() => {
         if (projectIdParam) {
-        setProjectId(projectIdParam);
+            setProjectId(projectIdParam);
 
-        const editorSocketConn = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
-            query: {
-                projectId: projectIdParam
+            const editorSocketConn = io(`${import.meta.env.VITE_BACKEND_URL}/editor`, {
+                query: {
+                    projectId: projectIdParam
+                }
+            });
+
+            try {
+                const ws = new WebSocket("ws://localhost:4000/terminal?projectId="+projectIdParam);
+                setTerminalSocket(ws);
+                
+            } catch(error) {
+                console.log("error in ws", error);
             }
-        });
-
-        try {
-            const ws = new WebSocket("ws://localhost:4000/terminal?projectId="+projectIdParam);
-            setTerminalSocket(ws);
             
-        } catch(error) {
-            console.log("error in ws", error);
-        }
             setEditorSocket(editorSocketConn);
+        }
+    
 
-        setEditorSocket(editorSocketConn);
-    }
-        
     }, [setProjectId, projectIdParam, setEditorSocket, setTerminalSocket]);
 
     return (
@@ -75,7 +79,11 @@ export default function ProjectPlayground() {
                     </Allotment>
                 </Allotment.Pane>
             </Allotment>
+            <div>
+               {port && <Browser port={port}/>}
+            </div>
         </div>
+        
 
     )
 }
