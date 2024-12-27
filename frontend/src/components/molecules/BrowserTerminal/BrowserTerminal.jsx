@@ -44,7 +44,7 @@ function BrowserTerminal() {
         // Attach WebSocket if available
         if (terminalSocket) {
             terminalSocket.onopen = () => {
-                const attachAddon = new AttachAddon(socket=terminalSocket, bidirectional=true);
+                const attachAddon = new AttachAddon(terminalSocket, true);
                 term.loadAddon(attachAddon);
             };
         }
