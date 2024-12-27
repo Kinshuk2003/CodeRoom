@@ -1,0 +1,149 @@
+/* General Layout */
+.project-playground {
+    display: flex;
+    height: 100vh;
+    font-family: 'Fira Code', monospace;
+    background-color: #1e1e2e;
+    color: #f8f8f2;
+}
+
+/* Sidebar (Tree Structure) */
+.tree-structure {
+    background-color: #21222c;
+    color: #f8f8f2;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0.5rem;
+    border-right: 1px solid #3e3e54;
+}
+
+/* Editor Component */
+.editor-component {
+    position: relative;
+    background-color: #282a36;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Terminal */
+.browser-terminal {
+    background-color: #21222c;
+    color: #f8f8f2;
+    padding: 0.5rem;
+    height: 100%;
+    overflow-y: auto; /* Enables scrolling when content overflows */
+    border-top: 1px solid #3e3e54;
+}
+
+/* Browser */
+.browser-container {
+    background-color: #1e1e2e;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    border-left: 1px solid #3e3e54;
+    height: 100%;
+}
+
+.browser-container button {
+    margin-bottom: 0.5rem;
+    background-color: #282a36;
+    color: #f8f8f2;
+    border: 1px solid #44475a;
+    padding: 0.5rem;
+    font-family: 'Fira Code', monospace;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.browser-container button:hover {
+    background-color: #6272a4;
+}
+
+.browser-container iframe {
+    flex-grow: 1;
+    border: none;
+    background-color: #1e1e2e;
+}
+
+.browser-container input {
+    width: 100%;
+    height: 30px;
+    color: white;
+    background-color: #282a36;
+    border: 1px solid #3e3e54;
+    border-radius: 4px;
+    padding: 5px;
+    font-family: 'Fira Code', monospace;
+}
+
+.browser-container input:focus {
+    outline: none;
+    border-color: #6272a4;
+}
+
+/* Scrollbar General Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2f38;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #44475a;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6272a4;
+}
+
+/* Tree Structure Scrollbar */
+.tree-structure::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tree-structure::-webkit-scrollbar-thumb {
+    background: #6272a4;
+    border-radius: 10px;
+}
+
+.tree-structure::-webkit-scrollbar-thumb:hover {
+    background: #8be9fd;
+}
+
+/* Browser Terminal Scrollbar */
+.browser-terminal::-webkit-scrollbar {
+    height: 8px;
+}
+
+.browser-terminal::-webkit-scrollbar-thumb {
+    background: #44475a;
+    border-radius: 10px;
+}
+
+.browser-terminal::-webkit-scrollbar-thumb:hover {
+    background: #50fa7b;
+}
+
+/* Browser Input */
+.browser-container input {
+    width: 100%;
+    height: 30px;
+    color: #f8f8f2;
+    font-family: 'Fira Code', monospace;
+    background-color: #282a36;
+    border: 1px solid #3e3e54;
+    border-radius: 4px;
+    padding-left: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.browser-container input:focus {
+    outline: none;
+    border-color: #6272a4;
+}

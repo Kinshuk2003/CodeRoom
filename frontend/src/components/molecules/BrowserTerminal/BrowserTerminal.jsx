@@ -1,22 +1,21 @@
-import { Terminal } from '@xterm/xterm';
-import { FitAddon } from '@xterm/addon-fit';
+import React, { useEffect, useRef } from "react";
+import { Terminal } from "@xterm/xterm";
+import { FitAddon } from "@xterm/addon-fit";
 import "@xterm/xterm/css/xterm.css"; // required styles
-import { useEffect, useRef } from 'react';
-import { AttachAddon } from '@xterm/addon-attach';
-import { useParams } from 'react-router-dom';
-import { useTerminalSocketStore } from '../../../store/terminalSocketStore';
+import { AttachAddon } from "@xterm/addon-attach";
+import { useTerminalSocketStore } from "../../../store/terminalSocketStore.js";
+import "./BrowserTerminal.css";
 
-
-export const BrowserTerminal = () => {
-    
+function BrowserTerminal() {
     const terminalRef = useRef(null);
-    //const socket = useRef(null);
-    //const {projectId: projectIdParam} = useParams();
-
-    const  {terminalSocket} = useTerminalSocketStore();
+    const fitAddonRef = useRef(null); // Keep a reference to the FitAddon
+    const { terminalSocket } = useTerminalSocketStore();
 
     useEffect(() => {
-        const terminal = new Terminal({
+        if (!terminalRef.current) return;
+
+        // Initialize terminal
+        const term = new Terminal({
             cursorBlink: true,
             theme: {
                 background: "#282a37",
@@ -28,44 +27,43 @@ export const BrowserTerminal = () => {
                 yellow: "#f1fa8c",
                 cyan: "#8be9fd",
             },
-            fontSize: 16,
-            fontFamily: "Fira Code",
-            convertEol: true, // convert CRLF to LF
+            fontSize: 14,
+            fontFamily: "monospace",
+            convertEol: true,
         });
-        terminal.open(terminalRef.current);
+
+        // Add the terminal to the DOM
+        term.open(terminalRef.current);
+
+        // Initialize and load FitAddon
         const fitAddon = new FitAddon();
-        terminal.loadAddon(fitAddon);
+        fitAddonRef.current = fitAddon;
+        term.loadAddon(fitAddon);
         fitAddon.fit();
 
-        
-        if (!terminalSocket) {
+        // Attach WebSocket if available
+        if (terminalSocket) {
             terminalSocket.onopen = () => {
-                const attachAddon = new AttachAddon(terminalSocket);
-                terminal.loadAddon(attachAddon);
-                //socket.current = ws;
-            }
+                const attachAddon = new AttachAddon(socket=terminalSocket, bidirectional=true);
+                term.loadAddon(attachAddon);
+            };
         }
-        
 
-        return () => { 
-            terminal.dispose();
-            socket.current.close();
-        }
+        // Resize the terminal when the container resizes
+        const resizeObserver = new ResizeObserver(() => {
+            fitAddon.fit();
+        });
+        resizeObserver.observe(terminalRef.current);
+
+        // Cleanup
+        return () => {
+            term.dispose();
+            terminalSocket?.close();
+            resizeObserver.disconnect();
+        };
     }, [terminalSocket]);
-    
-    return (
-        <div 
-            ref={terminalRef}
-            style={{
-                width: '100%', 
-                height: '25vh', 
-                overflow: 'auto'
-                }}
-            className='terminal'
-            id='terminal-container' 
-        >
 
-            
-        </div>
-    )
+    return <div ref={terminalRef} className="terminal" id="terminal-container"></div>;
 }
+
+export default BrowserTerminal;
