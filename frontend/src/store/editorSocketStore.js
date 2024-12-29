@@ -28,6 +28,7 @@ export const useEditorSocketStore = create((set) => ({
         });
 
         incomingSocket?.on('getPortSuccess', ({port}) => {
+            console.log("Port Success socket", port);
             portSetter(port);
         
         });

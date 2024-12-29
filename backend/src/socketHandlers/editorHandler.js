@@ -112,9 +112,11 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
 
     socket.on('getPort', async ({containerName}) => {
         try{
+            console.log("Container name :", containerName);
             const port = await getContainerPort(containerName);
+            console.log("Port data :", port);
             socket.emit('getPortSuccess', {
-                data: port
+                port: port
             });
         }catch(error) {
             console.error("Error getting the port",error);

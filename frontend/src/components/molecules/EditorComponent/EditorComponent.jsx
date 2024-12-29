@@ -52,7 +52,7 @@ export default function EditorComponent() {
                 <Editor
                     height= {'100vh'}
                     width= {'100%'}
-                    defaultLanguage={'undefined'}
+                    defaultLanguage={'javascript'}
                     language={extensionToFileType(activeFileTab?.extension)}     
                     defaultValue="console.log('Hello, World!');"
                     value={activeFileTab?.value ? activeFileTab.value : "console.log('hellow World');"}

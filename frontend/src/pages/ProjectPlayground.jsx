@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import EditorComponent from "../components/molecules/EditorComponent/EditorComponent";
 import { EditorButton } from "../components/atoms/EditorButton/EditorButton";
 import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore";
 import { useEditorSocketStore } from "../store/editorSocketStore";
 import { io } from 'socket.io-client';
@@ -11,17 +11,17 @@ import { useTerminalSocketStore } from "../store/terminalSocketStore";
 import { Allotment } from "allotment";
 import "allotment/dist/style.css";
 import "./ProjectPlayground.css";
-import { usePortStore } from "../store/portStore";
 import { Browser } from "../components/organisms/Browser/Browser";
+import { Divider } from "antd";
 
 
 export default function ProjectPlayground() {
     
     const {projectId: projectIdParam} = useParams();
     const {projectId, setProjectId} = useTreeStructureStore();
-    const {setEditorSocket, editorSocket} = useEditorSocketStore();
+    const {setEditorSocket} = useEditorSocketStore();
     const { terminalSocket, setTerminalSocket } = useTerminalSocketStore();
-    const {port} = usePortStore();
+    const [loadBrowser, setLoadBrowser] = useState(false);
 
     
     useEffect(() => {
@@ -69,19 +69,30 @@ export default function ProjectPlayground() {
                                 <EditorComponent />
                             </div>
                         </Allotment.Pane>
-
+                        
                         {/* Terminal */}
-                        <Allotment.Pane preferredSize="30%" minSize={200}>
+                        <Allotment.Pane preferredSize="30%" minSize={100}>
+                            <Divider style={{color: "white", border: "1px solid #333254", margin: 0}} > Terminal </Divider>
                             <div className="browser-terminal">
                                 <BrowserTerminal />
                             </div>
                         </Allotment.Pane>
                     </Allotment>
                 </Allotment.Pane>
+                {/* Browser */}
+                <Allotment.Pane preferredSize={300} minSize={250}>
+                    <div className="browser-container">
+                        <button onClick={() => setLoadBrowser(true)}>Load my browser</button>
+                        {loadBrowser && projectIdParam && terminalSocket && (
+                            <Browser projectId={projectIdParam} />
+                        )}
+                    </div>
+                </Allotment.Pane>
             </Allotment>
-            <div>
-               {port && <Browser port={port}/>}
-            </div>
+            {/* <div>
+                <button onClick={() => setLoadBrowser(true)}>Browser</button>
+               {loadBrowser && projectId && terminalSocket && <Browser projectId={projectIdParam}/>}
+            </div> */}
         </div>
         
 
