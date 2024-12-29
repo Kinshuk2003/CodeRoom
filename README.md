@@ -2,6 +2,12 @@
 
 A web browser-based code sandbox for building scalable web applications in the cloud.
 
+![Visitors](https://visitor-badge.glitch.me/badge?page_id=Kinshuk2003.CodeX-IDE)
+
+### Demo
+
+![CodeX-IDE Demo](CodeX-IDE%20Demo.mov)
+
 ## Features
 
 ### Code Editor
