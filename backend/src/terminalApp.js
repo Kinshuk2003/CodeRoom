@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { createServer } from 'node:http';
-import { handleContainerCreate } from './containers/handleContainerCreate.js';
+import { handleContainerCreate } from './Containers/handleContainerCreate.js';
 import { WebSocketServer } from 'ws';
 import { handleTerminalConnection } from './containers/handleTerminalConnection.js';
 

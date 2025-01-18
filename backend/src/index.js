@@ -6,6 +6,9 @@ import chokidar from 'chokidar';
 import { PORT } from './config/serverConfig.js';
 import apiRouter from './routes/index.js';
 import { handleEditorSocketEvents } from './socketHandlers/editorHandler.js';
+import { handleContainerCreate } from './Containers/handleContainerCreate.js';
+import { WebSocketServer } from 'ws';
+import { handleTerminalConnection } from './containers/handleTerminalConnection.js';
 
 const app = express();
 const server = createServer(app);
@@ -57,4 +60,29 @@ editorNameSpace.on('connection', (socket) => {
 
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+
+const terminalServer = createServer(app);
+
+terminalServer.listen(4000, () => {
+    console.log(`Server is running on port ${4000}`);
+    console.log(process.cwd())
+});
+
+const webSocketForTerminal = new WebSocketServer({
+    terminalServer
+});
+
+webSocketForTerminal.on("connection", async (ws, req, container) => {
+    const isTerminal = req.url.includes("/terminal");
+
+    if(isTerminal) {
+        const projectId = req.url.split("=")[1];
+        console.log("Project id received after connection", projectId);
+
+        const container = await handleContainerCreate(projectId, webSocketForTerminal);
+
+        handleTerminalConnection(container, ws);
+    } 
 });
