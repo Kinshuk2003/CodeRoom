@@ -35,7 +35,7 @@ export default function ProjectPlayground() {
             });
 
             try {
-                const ws = new WebSocket("ws://localhost:4000/terminal?projectId="+projectIdParam);
+                const ws = new WebSocket("ws://localhost:3000/terminal?projectId="+projectIdParam);
                 setTerminalSocket(ws);
                 
             } catch(error) {
