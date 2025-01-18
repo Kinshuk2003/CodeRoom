@@ -35,8 +35,10 @@ export default function ProjectPlayground() {
             });
 
             try {
-                const ws = new WebSocket("ws://localhost:3000/terminal?projectId="+projectIdParam);
+                console.log("import ws link",import.meta.env.VITE_WS_URL);
+                const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}/terminal?projectId=`+projectIdParam);
                 setTerminalSocket(ws);
+                console.log("ws", ws);
                 
             } catch(error) {
                 console.log("error in ws", error);
