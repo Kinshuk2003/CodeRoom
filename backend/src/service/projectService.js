@@ -2,7 +2,6 @@ import uuid4 from "uuid4";
 import fs from "fs/promises";
 import path from "path";
 import { execPromisified } from "../utils/execUtility.js";
-import { REACT_PROJECT_COMMAND } from "../config/serverConfig.js";
 import directoryTree from "directory-tree";
 
 

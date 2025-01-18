@@ -8,7 +8,7 @@ import apiRouter from './routes/index.js';
 import { handleEditorSocketEvents } from './socketHandlers/editorHandler.js';
 import { handleContainerCreate } from './Containers/handleContainerCreate.js';
 import { WebSocketServer } from 'ws';
-import { handleTerminalConnection } from './containers/handleTerminalConnection.js';
+import { handleTerminalConnection } from './Containers/handleTerminalConnection.js';
 
 const app = express();
 const server = createServer(app);
