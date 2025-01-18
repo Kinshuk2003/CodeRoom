@@ -84,6 +84,8 @@ export async function getContainerPort(containerName) {
         name: containerName
     });
 
+    console.log("Container list", container);
+
     if(container.length > 0) {
         const containerInfo = await docker.getContainer(container[0].Id).inspect();
         console.log("Container info", containerInfo);

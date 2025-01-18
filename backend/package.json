@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon src/index.js"
+    "dev": "npx nodemon src/index.js",
+    "socket" : "npx nodemon src/terminalApp.js"
   },
   "keywords": [],
   "author": "",
