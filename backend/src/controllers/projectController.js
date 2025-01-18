@@ -2,8 +2,14 @@ import { createProjectService, getProjectTreeService } from '../service/projectS
 
 export async function createProjectController(req, res) {
     try {
-    
-        const { stdout, stderr, projectId } = await createProjectService();
+        console.log("Creating project", req.body);
+
+        //check body should contain projectName, language, and template
+        if (!req.body.projectName) {
+            return res.status(400).json({ message: "Project name is required" });
+        }
+
+        const { stdout, stderr, projectId } = await createProjectService(req.body);
         
         if (stderr) {
             return res.status(500).json({ message: stderr });

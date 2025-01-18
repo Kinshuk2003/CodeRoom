@@ -6,15 +6,21 @@ import { REACT_PROJECT_COMMAND } from "../config/serverConfig.js";
 import directoryTree from "directory-tree";
 
 
-export const createProjectService = async () => {
+export const createProjectService = async ({projectName, language, framework}) => {
     try {
-
+        console.log("Creating project Service", projectName, language, framework);
         const projectId = uuid4();
         console.log(projectId);
         await fs.mkdir(`.\\projects\\${projectId}`);
         // After this call the npm create vite project command inside the project folder.
-        console.log("react project command", REACT_PROJECT_COMMAND);
-        const { stdout, stderr } = await execPromisified(REACT_PROJECT_COMMAND,
+        let languageFrameworkflag = `${framework}`;
+        if (language === "typescript") {
+            languageFrameworkflag += "-ts";
+        }
+        const command = `npm create vite@latest ${projectName} -- --template ${languageFrameworkflag}`;
+        
+        console.log("react project command", command);
+        const { stdout, stderr } = await execPromisified(command,
             {
                 cwd: `.\\projects\\${projectId}`,
             }
