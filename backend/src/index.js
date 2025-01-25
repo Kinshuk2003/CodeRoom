@@ -27,7 +27,7 @@ app.get('/ping', (req, res) => {
     return res.json({message: 'pong'});
 });
 
-app.use('/api', apiRouter);  //TODO: Covert it to only / 
+app.use('/api', apiRouter); 
 
 const editorNameSpace = io.of('/editor');
 
@@ -63,26 +63,26 @@ server.listen(PORT, () => {
 });
 
 
-const terminalServer = createServer(app);
+// const terminalServer = createServer(app);
 
-terminalServer.listen(4000, () => {
-    console.log(`Server is running on port ${4000}`);
-    console.log(process.cwd())
-});
+// terminalServer.listen(4000, () => {
+//     console.log(`Server is running on port ${4000}`);
+//     console.log(process.cwd())
+// });
 
-const webSocketForTerminal = new WebSocketServer({
-    terminalServer
-});
+// const webSocketForTerminal = new WebSocketServer({
+//     terminalServer
+// });
 
-webSocketForTerminal.on("connection", async (ws, req, container) => {
-    const isTerminal = req.url.includes("/terminal");
+// webSocketForTerminal.on("connection", async (ws, req, container) => {
+//     const isTerminal = req.url.includes("/terminal");
 
-    if(isTerminal) {
-        const projectId = req.url.split("=")[1];
-        console.log("Project id received after connection", projectId);
+//     if(isTerminal) {
+//         const projectId = req.url.split("=")[1];
+//         console.log("Project id received after connection", projectId);
 
-        const container = await handleContainerCreate(projectId, webSocketForTerminal);
+//         const container = await handleContainerCreate(projectId, webSocketForTerminal);
 
-        handleTerminalConnection(container, ws);
-    } 
-});
+//         handleTerminalConnection(container, ws);
+//     } 
+// });

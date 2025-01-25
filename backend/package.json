@@ -6,12 +6,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon src/index.js",
-    "socket" : "npx nodemon src/terminalApp.js"
+    "socket": "npx nodemon src/terminalApp.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@copilotkit/runtime": "^1.5.13",
     "chokidar": "^4.0.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
