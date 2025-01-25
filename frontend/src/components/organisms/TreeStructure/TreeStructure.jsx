@@ -28,16 +28,13 @@ export const TreeStructure = () => {
         {isFileContextOpen && fileContextX && fileContextY && (
             <FileContextMenu x={fileContextX} y={fileContextY} path={file}/>
         )}
-        <div>
-            <p
-                style={{
-                    color: 'white',
-                    fontSize: '20px',
-                    paddingLeft: '10px'
-                }}
-            
-            >EXPLORER</p>
-            <TreeNode fileFolderData={treeStructure}/>
+        <div className="h-screen overflow-y-auto">
+            <div className="p-2 text-gray-200 text-sm font-medium border-b border-gray-700">
+                EXPLORER
+            </div>
+            <div className="py-2">
+                <TreeNode fileFolderData={treeStructure}/>
+            </div>
         </div>
         </>
     )

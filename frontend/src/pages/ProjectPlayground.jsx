@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import EditorComponent from "../components/molecules/EditorComponent/EditorComponent";
-import { EditorButton } from "../components/atoms/EditorButton/EditorButton";
+// import { EditorButton } from "../components/atoms/EditorButton/EditorButton";
 import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
 import { useEffect, useState } from "react";
 import { useTreeStructureStore } from "../store/treeStructureStore";
@@ -13,6 +13,7 @@ import "allotment/dist/style.css";
 import "./ProjectPlayground.css";
 import { Browser } from "../components/organisms/Browser/Browser";
 import { Divider } from "antd";
+import { Copilot } from "../components/organisms/Copilot/Copilot";
 
 
 export default function ProjectPlayground() {
@@ -84,19 +85,20 @@ export default function ProjectPlayground() {
                 {/* Browser */}
                 <Allotment.Pane preferredSize={300} minSize={250}>
                     <div className="browser-container">
-                        <button onClick={() => setLoadBrowser(true)}>Load my browser</button>
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <button onClick={() => setLoadBrowser(true)}>Browser</button>
+                            <button onClick={() => setLoadBrowser(false)}>Copilot</button>
+                        </div>
                         {loadBrowser && projectIdParam && terminalSocket && (
                             <Browser projectId={projectIdParam} />
+                        )}
+
+                        {!loadBrowser && (
+                            <Copilot />
                         )}
                     </div>
                 </Allotment.Pane>
             </Allotment>
-            {/* <div>
-                <button onClick={() => setLoadBrowser(true)}>Browser</button>
-               {loadBrowser && projectId && terminalSocket && <Browser projectId={projectIdParam}/>}
-            </div> */}
         </div>
-        
-
     )
 }

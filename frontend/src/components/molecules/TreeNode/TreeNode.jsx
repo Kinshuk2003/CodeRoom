@@ -1,4 +1,6 @@
+/* eslint-disable react/prop-types */
 import {IoIosArrowForward, IoIosArrowDown} from "react-icons/io";
+import { FaRegFolder } from "react-icons/fa";
 import { useState } from "react";
 import { FileIcon } from "../../atoms/FileIcon/FileIcon";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
@@ -50,57 +52,47 @@ export const TreeNode = ({fileFolderData}) => {
     }
     
     return (
-        fileFolderData && (
-            <div
-                style={{
-                    paddingLeft: "5px",
-                    color: "white"
-                }}
+        <div className="select-none">
+            <div className={`flex items-center py-1 px-2 text-gray-100`}
             >
-                {fileFolderData.children ? (
-                    /** The current Node is Folder, Render it as Button */
-                    <button 
-                        onClick={() => toggleVisibility(fileFolderData.name)}
-                        style={{
-                            outline: "none",
-                            border: "none",
-                            color: "white",
-                            cursor: "pointer",
-                            backgroundColor: "transparent",
-                            paddingTop: "15px",
-                            fontSize: "15px"
-                        }}
-                    > 
-                        {visibility[fileFolderData.name] ? <IoIosArrowDown style={{height:"15px", width:"15px"}}/> : <IoIosArrowForward style={{height:"15px", width:"15px"}}/>}
-                        {fileFolderData.name}
-                    </button>
-                    ): (
-                        /** The current Node is File, Render it as <p> tag */
-                            <div style={{display: "flex", alignItems:"center"}}>
-                                <FileIcon extension={computeExtension(fileFolderData.name)} />
-                                <p
-                                style={{
-                                    paddingTop: "5px",
-                                    fontSize: "15px",
-                                    cursor: "pointer",
-                                    color: "white",
-                                    marginLeft: "5px"
-                                }}
-                                onContextMenu={(e) => handleContextMenuForFiles(e, fileFolderData.path)}  
-                                onDoubleClick={() => handleDisplayFile(fileFolderData)}
-                                >
-                                    {fileFolderData.name}
-                                </p>
-                            </div>
-                    )
-            }
-                {visibility[fileFolderData.name] && fileFolderData.children && (
-                        fileFolderData.children.map((child) => (
-                            <TreeNode key={child.name} fileFolderData={child}/>
-                        ))
-                    )
+                {
+                    fileFolderData && (
+                        <div>
+                            {fileFolderData.children ? (
+                                    /** The current Node is Folder, Render it as Button  */
+                                <button className="flex items-center gap-1 hover:bg-gray-700/50 cursor-pointer p-2 "
+                                    onClick={() => toggleVisibility(fileFolderData.name)}
+                                > 
+                                    <span className="w-4 h-4">
+                                        {visibility[fileFolderData.name] ? <IoIosArrowDown/> : <IoIosArrowForward/>}
+                                    </span>
+                                    <FaRegFolder className="w-4 h-4 text-blue-400" />
+                                    <span className="ml-1 text-sm">{fileFolderData.name}</span>
+                                </button>
+                            ): (
+                                /** The current Node is File, Render it as <p> tag */
+                                <div className="flex items-center gap-1 hover:bg-gray-700/50 cursor-pointer">
+                                    <span className="w-4 h-4">
+                                        <FileIcon extension={computeExtension(fileFolderData.name)} />
+                                    </span>
+                                    <span className="ml-1 text-sm"
+                                          onContextMenu={(e) => handleContextMenuForFiles(e, fileFolderData.path)}  
+                                          onDoubleClick={() => handleDisplayFile(fileFolderData)}
+                                    >
+                                        {fileFolderData.name}
+                                    </span>
+                                </div>
+                            )}
+                            {
+                                visibility[fileFolderData.name] && fileFolderData.children && (
+                                    fileFolderData.children.map((child) => (
+                                        <TreeNode key={child.name} fileFolderData={child}/>
+                                    ))
+                                )
+                            }
+                        </div>)
                 }
             </div>
-        )
+        </div>
     )
 }
