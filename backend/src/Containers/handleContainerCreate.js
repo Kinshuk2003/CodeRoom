@@ -16,7 +16,6 @@ export const listContainer = async () => {
 export const handleContainerCreate = async (projectId, terminalSocket) => {
     console.log("Project id received for container create", projectId);
     try {
-
         // Delete any existing container running with same name
         const existingContainer = await docker.listContainers({
             name: projectId
@@ -67,12 +66,6 @@ export const handleContainerCreate = async (projectId, terminalSocket) => {
         await container.start();
 
         console.log("container started");
-
-        // Below is the place where we upgrade the connection to websocket
-        // terminalSocket.handleUpgrade(req, tcpSocket, head, (establishedWSConn) => {
-        //     console.log("Connection upgraded to websocket");
-        //     terminalSocket.emit("connection", establishedWSConn, req, container);
-        // });
 
         return container;
 

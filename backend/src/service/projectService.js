@@ -9,7 +9,8 @@ export const createProjectService = async ({projectName, language, framework}) =
     try {
         console.log("Creating project Service", projectName, language, framework);
         const projectId = uuid4();
-        console.log(projectId);
+        console.log("project id:", projectId);
+        
         await fs.mkdir(`.\\projects\\${projectId}`);
         // After this call the npm create vite project command inside the project folder.
         let languageFrameworkflag = `${framework}`;
@@ -28,10 +29,7 @@ export const createProjectService = async ({projectName, language, framework}) =
     } catch (error) {
         console.error(error);
         return {error: error};
-    }
-    //create a unique id and then inside the projects folder
-    //create a folder with that id (UUID)
-    
+    } 
 }
 
 

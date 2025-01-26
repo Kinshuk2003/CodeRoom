@@ -15,28 +15,29 @@ export const handleTerminalConnection = (container, ws) => {
         }
 
         exec.start({
-            hijack: true,
-        }, (err, stream) => {
-            if(err) {
-                console.log("Error while starting exec", err);
-                return;
-            }
-
-            // Step 1: Stream processing
-            processStreamOutput(stream, ws);
-            // Step 2: Stream writing
-
-            ws.on("message", (data) => {
-                if(data === "getPort") {
-                    container.inspect((err, data) => {
-                        const port = data.NetworkSettings;
-                        console.log(port);
-                    })
+                hijack: true,
+            }, (err, stream) => {
+                if(err) {
+                    console.log("Error while starting exec", err);
                     return;
                 }
-                stream.write(data);
-            })
-        })
+
+                // Step 1: Stream processing
+                processStreamOutput(stream, ws);
+                // Step 2: Stream writing
+
+                ws.on("message", (data) => {
+                    if(data === "getPort") {
+                        container.inspect((err, data) => {
+                            const port = data.NetworkSettings;
+                            console.log(port);
+                        })
+                        return;
+                    }
+                    stream.write(data);
+                })
+            }
+        )
     })
 }
 
@@ -81,5 +82,4 @@ function processStreamOutput(stream, ws) {
     }
 
     stream.on("data", processStreamData);
-
 }

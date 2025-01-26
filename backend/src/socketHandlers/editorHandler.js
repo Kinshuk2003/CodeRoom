@@ -17,7 +17,6 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
                 data: "Error writting the file"
             });
         }
-
     });
 
     socket.on('createFile', async ({fileOrFolderPath}) => {
@@ -40,7 +39,6 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
                 data: "Error creating the file"
             });
         }
-
     });
 
     socket.on('readFile', async ({fileOrFolderPath}) => {
@@ -56,7 +54,6 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
                 data: "Error reading the file"
             });
         }
-
     });
 
     socket.on('deleteFile', async ({fileOrFolderPath}) => {
@@ -71,18 +68,9 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
                 data: "Error deleting the file"
             });
         }
-
     });
 
     socket.on('createFolder', async ({fileOrFolderPath}) => {
-        // const isFilePresent = await fs.stat(fileOrFolderPath);
-        // if(isFilePresent) {
-        //     socket.emit('createFileError', {
-        //         data: "File already exists"
-        //     });
-        //     return;
-        // }
-
         try {
             const response = await fs.mkdir(fileOrFolderPath);
             socket.emit('createFolderSuccess', {
@@ -94,7 +82,6 @@ export const handleEditorSocketEvents = (socket, editorNameSpace) => {
                 data: "Error creating the folder"
             });
         }
-
     });
 
     socket.on('deleteFolder', async ({fileOrFolderPath}) => {

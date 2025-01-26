@@ -6,7 +6,6 @@ import { copliotController } from '../../controllers/copilotController.js';
 
 const router = express.Router();
 
-
 router.get('/ping', pingCheck);
 router.use('/projects', projectRouter);
 router.use('/copilot', copliotController);
