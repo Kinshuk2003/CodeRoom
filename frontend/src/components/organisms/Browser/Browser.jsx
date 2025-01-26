@@ -1,8 +1,9 @@
 import { Input, Row} from "antd";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { usePortStore } from "../../../store/portStore";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
 import { ReloadOutlined } from "@ant-design/icons";
+import { Loader } from "../../atoms/Loader/Loader";
 
 
 export const Browser = ({projectId}) => {
@@ -23,37 +24,28 @@ export const Browser = ({projectId}) => {
     }
 
     if (!port) {
-        return <div> Loading ...</div>
+        return <Loader text="Loading Browser ..." />;
     }
     return (
-        <Row
-            style={{
-                backgroundColor: "#22212b",
-            }}
-        
-        >
-        <Input
-            style={{
-                width: "100%",
-                height: "5vh",
-                color: "white",
-                fontFamily: "Fira Code",
-                backgroundColor: "#282a35",
-            }}
-            prefix={<ReloadOutlined  onClick={handleRefresh}/>}
-            defaultValue={`http://localhost:${port}`}
-        />
-        <iframe
-            ref={browserRef}
-            style={{
-                width: "100%",
-                height: "95vh",
-                border: "none",
-            }}
-            src={`http://localhost:${port}`}
-        />
-
+        <Row style={{ backgroundColor: "#22212b"}}>
+            <Input style={{
+                        width: "100%",
+                        height: "5vh",
+                        color: "white",
+                        fontFamily: "Fira Code",
+                        backgroundColor: "#282a35",
+                    }}
+                prefix={<ReloadOutlined  onClick={handleRefresh}/>}
+                defaultValue={`${import.meta.env.VITE_HOST}${port}`}
+            />
+            <iframe ref={browserRef}
+                style={{
+                    width: "100%",
+                    height: "95vh",
+                    border: "none",
+                }}
+                src={`${import.meta.env.VITE_HOST}${port}`}
+            />
         </Row>
     )
 }
-

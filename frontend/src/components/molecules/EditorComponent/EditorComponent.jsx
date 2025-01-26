@@ -4,6 +4,7 @@ import { useActiveFileTabStore } from '../../../store/activeFileTabStore';
 import { useEditorSocketStore } from '../../../store/editorSocketStore';
 import { extensionToFileType } from '../../../utils/extensionToFileType';
 
+
 export default function EditorComponent() {
 
     let timerId = null;
