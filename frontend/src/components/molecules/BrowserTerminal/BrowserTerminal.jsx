@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
-import "@xterm/xterm/css/xterm.css"; // required styles
 import { AttachAddon } from "@xterm/addon-attach";
 import { useTerminalSocketStore } from "../../../store/terminalSocketStore.js";
-import "./BrowserTerminal.css";
+import "@xterm/xterm/css/xterm.css"; // required styles
+
 
 function BrowserTerminal() {
     const terminalRef = useRef(null);
@@ -50,8 +50,10 @@ function BrowserTerminal() {
         }
 
         // Resize the terminal when the container resizes
+        let resizeTimeout;
         const resizeObserver = new ResizeObserver(() => {
-            fitAddon.fit();
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => fitAddon.fit(), 100); // Debounced
         });
         resizeObserver.observe(terminalRef.current);
 
@@ -63,7 +65,10 @@ function BrowserTerminal() {
         };
     }, [terminalSocket]);
 
-    return <div ref={terminalRef} className="terminal" id="terminal-container"></div>;
+    return (
+        <div ref={terminalRef} className="w-full h-full bg-[#282a37] font-fira-code" id="terminal-container">
+        </div>
+    )
 }
 
 export default BrowserTerminal;
