@@ -1,5 +1,6 @@
 import { FiCodesandbox } from "react-icons/fi";
 
+
 export const Footer = () => {
     
     return (
@@ -11,10 +12,10 @@ export const Footer = () => {
                         <span className="font-bold">CodeRoom</span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      Built with ❤️ in India.
+                        Built with ❤️ in India.
                     </div>
                     <div className="text-sm text-gray-400">
-                      © 2024 CodeRoom. All rights reserved.
+                        © 2024 CodeRoom. All rights reserved.
                     </div>
                 </div>
             </div>

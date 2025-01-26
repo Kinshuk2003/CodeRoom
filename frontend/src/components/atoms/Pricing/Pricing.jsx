@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { FiCheck } from "react-icons/fi";
 
+
 export const Pricing = ({isVisible}) => {
     const navigate = useNavigate();
     const freeTier = [

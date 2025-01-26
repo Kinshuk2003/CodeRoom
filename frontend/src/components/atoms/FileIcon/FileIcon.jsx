@@ -1,8 +1,8 @@
-/* eslint-disable react/prop-types */
 import { RiJavascriptFill, RiReactjsFill, RiHtml5Fill, RiCss3Fill, RiFileImageFill, 
     RiBracesFill, RiVuejsFill, RiSvelteFill } from "react-icons/ri";
 import { SiGitignoredotio, SiTypescript } from "react-icons/si";
 import { CiCircleAlert } from "react-icons/ci";
+
 
 export const FileIcon = ({extension}) => {
     const IconMapper = {
@@ -21,16 +21,11 @@ export const FileIcon = ({extension}) => {
         "md": <CiCircleAlert color="pink" />,
         "vue": <RiVuejsFill color="green" />,
         "svelte": <RiSvelteFill color="red" />,
-
-
-
     }
-    
     
     return (
         <>
             {IconMapper[extension]}
         </>
     )
-
 }
