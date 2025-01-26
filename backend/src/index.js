@@ -27,7 +27,7 @@ app.get('/ping', (req, res) => {
     return res.json({message: 'pong'});
 });
 
-app.use('/api', apiRouter); 
+app.use('/api', apiRouter);  //TODO: Covert it to only / 
 
 const editorNameSpace = io.of('/editor');
 
@@ -36,6 +36,7 @@ editorNameSpace.on('connection', (socket) => {
     console.log("project id From socket", socket.handshake.query['projectId']);
     const projectId = socket.handshake.query['projectId'];
     if (projectId) {
+        socket.join(projectId);
         var watcher = chokidar.watch(`./projects/${projectId}`, {
             ignored: (path) => path.includes('node_modules'),
             persistent: true, /** Keeps the watcher in running state till the time app is running */

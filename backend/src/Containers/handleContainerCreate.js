@@ -1,4 +1,6 @@
 import Docker from 'dockerode';
+import { cwd } from 'node:process';
+
 const docker = new Docker();
 
 export const listContainer = async () => {
@@ -48,7 +50,7 @@ export const handleContainerCreate = async (projectId, terminalSocket) => {
             Env: ["HOST=0.0.0.0"],
             HostConfig: {
                 Binds: [ // mounting the project directory to the container
-                    `${process.cwd()}/projects/${projectId}:/home/sandbox/app`
+                    `${cwd()}/projects/${projectId}:/home/sandbox/app`
                 ],
                 PortBindings: {
                     "5173/tcp": [

@@ -8,7 +8,7 @@ const serviceAdapter = new GoogleGenerativeAIAdapter({ model: 'gemini-1.5-flash'
 
 
 export async function copliotController(req, res, next) {
-    console.log('Copilot controller called', req.body);
+    // console.log('Copilot controller called', req.body);
     const runtime = new CopilotRuntime();
     const handler = copilotRuntimeNodeHttpEndpoint({
       endpoint: '/copilot',

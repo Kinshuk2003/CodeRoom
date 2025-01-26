@@ -41,6 +41,7 @@ editorNameSpace.on('connection', (socket) => {
     const projectId = socket.handshake.query['projectId'];
     
     if (projectId) {
+        socket.join(projectId);
         const watcher = chokidar.watch(`./projects/${projectId}`, {
             ignored: (path) => path.includes('node_modules'),
             persistent: true,
