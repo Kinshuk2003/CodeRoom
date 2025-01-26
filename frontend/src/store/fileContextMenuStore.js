@@ -1,5 +1,6 @@
 import { create } from "zustand";
 
+
 export const useFileContextMenuStore = create((set) => ({
     x: null,
     y: null,    
@@ -21,4 +22,3 @@ export const useFileContextMenuStore = create((set) => ({
         set({ file: incomingFile });
     }
 }));
-

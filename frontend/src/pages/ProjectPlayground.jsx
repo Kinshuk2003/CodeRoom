@@ -1,29 +1,32 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import EditorComponent from "../components/molecules/EditorComponent/EditorComponent";
-// import { EditorButton } from "../components/atoms/EditorButton/EditorButton";
-import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
-import { useEffect, useState } from "react";
+import { io } from 'socket.io-client';
+import { Allotment } from "allotment";
+import { Divider } from "antd";
 import { useTreeStructureStore } from "../store/treeStructureStore";
 import { useEditorSocketStore } from "../store/editorSocketStore";
-import { io } from 'socket.io-client';
-import BrowserTerminal from "../components/molecules/BrowserTerminal/BrowserTerminal";
 import { useTerminalSocketStore } from "../store/terminalSocketStore";
-import { Allotment } from "allotment";
+import { useTabStore } from "../store/tabBarStore";
+import { useBrowserTabBarStore } from "../store/browserTabBarStore";
+import { BrowserTabBar } from "../components/atoms/BrowserTabBar/BrowserTabBar";
+import EditorComponent from "../components/molecules/EditorComponent/EditorComponent";
+import BrowserTerminal from "../components/molecules/BrowserTerminal/BrowserTerminal";
+import { TabBar } from "../components/molecules/TabBar/TabBar";
+import { TreeStructure } from "../components/organisms/TreeStructure/TreeStructure";
+import { Browser } from "../components/organisms/Browser/Browser";
+import { Copilot } from "../components/organisms/Copilot/Copilot";
 import "allotment/dist/style.css";
 import "./ProjectPlayground.css";
-import { Browser } from "../components/organisms/Browser/Browser";
-import { Divider } from "antd";
-import { Copilot } from "../components/organisms/Copilot/Copilot";
 
 
 export default function ProjectPlayground() {
-    
     const {projectId: projectIdParam} = useParams();
+
     const {projectId, setProjectId} = useTreeStructureStore();
     const {setEditorSocket} = useEditorSocketStore();
     const { terminalSocket, setTerminalSocket } = useTerminalSocketStore();
-    const [loadBrowser, setLoadBrowser] = useState(false);
-
+    const { tabs, activateTab, closeTab } = useTabStore();
+    const {browser} = useBrowserTabBarStore();
     
     useEffect(() => {
         if (projectIdParam) {
@@ -34,29 +37,29 @@ export default function ProjectPlayground() {
                     projectId: projectIdParam
                 }
             });
-
-            try {
-                console.log("import ws link",import.meta.env.VITE_WS_URL);
-                const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}/terminal?projectId=`+projectIdParam);
-                setTerminalSocket(ws);
-                console.log("ws", ws);
-                
-            } catch(error) {
-                console.log("error in ws", error);
-            }
             
             setEditorSocket(editorSocketConn);
         }
-    
+    }, [setProjectId, projectIdParam, setEditorSocket]);
 
-    }, [setProjectId, projectIdParam, setEditorSocket, setTerminalSocket]);
+    useEffect(() => {
+        if (projectIdParam) {
+            const ws = new WebSocket(`${import.meta.env.VITE_WS_URL}/terminal?projectId=`+projectIdParam);
+            ws.onopen = () => console.log("WebSocket connected!");
+            ws.onerror = (error) => console.error("WebSocket error:", error);
+            ws.onclose = () => console.log("WebSocket connection closed.");
+            setTerminalSocket(ws);
+            console.log("ws", ws);
+            return () => ws.close();
+        }
+    }, [projectIdParam, setTerminalSocket]);
 
     return (
         <div className="project-playground">
             <Allotment>
                 {/* Left Sidebar */}
-                <Allotment.Pane preferredSize={250} minSize={200} maxSize={400}>
-                    {projectId && (
+                <Allotment.Pane preferredSize={380} minSize={200} maxSize={400}>
+                    {   projectId && (
                         <div className="tree-structure">
                             <TreeStructure />
                         </div>
@@ -66,8 +69,15 @@ export default function ProjectPlayground() {
                 {/* Main Content */}
                 <Allotment.Pane>
                     <Allotment vertical>
-                        {/* Editor */}
-                        <Allotment.Pane preferredSize="70%" minSize={300}>
+                        <Allotment.Pane preferredSize="60%" minSize={300}>
+                            {/* Editor Tab Bar */}
+                            <div className="flex-1 flex flex-col">
+                                <TabBar tabs={tabs} 
+                                    onTabClick={(tab) => activateTab(tab.id)}
+                                    onTabClose={closeTab}
+                                />
+                            </div>
+                            {/* Editor */}
                             <div className="editor-component">
                                 <EditorComponent />
                             </div>
@@ -82,21 +92,19 @@ export default function ProjectPlayground() {
                         </Allotment.Pane>
                     </Allotment>
                 </Allotment.Pane>
+                
                 {/* Browser */}
-                <Allotment.Pane preferredSize={300} minSize={250}>
-                    <div className="browser-container">
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <button onClick={() => setLoadBrowser(true)}>Browser</button>
-                            <button onClick={() => setLoadBrowser(false)}>Copilot</button>
-                        </div>
-                        {loadBrowser && projectIdParam && terminalSocket && (
-                            <Browser projectId={projectIdParam} />
-                        )}
+                <Allotment.Pane preferredSize={300} minSize={250} className="border-l border-[#3e3e54]">
+                    {/* Browser Tab Bar*/}   
+                    <BrowserTabBar />
+                    
+                    {   browser && projectIdParam && terminalSocket && (
+                        <Browser projectId={projectIdParam} />
+                    )}
 
-                        {!loadBrowser && (
-                            <Copilot />
-                        )}
-                    </div>
+                    {   !browser && (
+                        <Copilot />
+                    )}
                 </Allotment.Pane>
             </Allotment>
         </div>

@@ -11,7 +11,6 @@ export const useActiveFileTabStore = create((set) => {
                     extension: extension
                 }
             })
-            }
         }
     }
-);
+});
