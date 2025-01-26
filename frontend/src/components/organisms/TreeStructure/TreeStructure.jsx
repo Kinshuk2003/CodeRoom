@@ -11,31 +11,29 @@ export const TreeStructure = () => {
         file,
         isOpen: isFileContextOpen,
         x: fileContextX,
-        y: fileContextY} = useFileContextMenuStore();
+        y: fileContextY } = useFileContextMenuStore();
 
     useEffect(() => {
-        
         if (treeStructure) {
             console.log("tree", treeStructure);
         }else {
             setTreeStructure();
-            console.log("hello", treeStructure);
         }
     }, [treeStructure, setTreeStructure]);
 
     return (
         <>
-        {isFileContextOpen && fileContextX && fileContextY && (
-            <FileContextMenu x={fileContextX} y={fileContextY} path={file}/>
-        )}
-        <div className="h-screen overflow-y-auto">
-            <div className="p-2 text-gray-200 text-sm font-medium border-b border-gray-700">
-                EXPLORER
+            {   isFileContextOpen && fileContextX && fileContextY && (
+                <FileContextMenu x={fileContextX} y={fileContextY} path={file}/>
+            )}
+            <div className="overflow-y:scroll h-[calc(100vh-4rem)]">   
+                <div className="p-1 text-gray-200 text-sm font-medium border-b border-gray-700">
+                    EXPLORER
+                </div>
+                <div className="py-2">
+                    <TreeNode fileFolderData={treeStructure}/>
+                </div>
             </div>
-            <div className="py-2">
-                <TreeNode fileFolderData={treeStructure}/>
-            </div>
-        </div>
         </>
     )
 }
