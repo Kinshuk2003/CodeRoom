@@ -13,8 +13,6 @@ createRoot(document.getElementById('root')).render(
   // <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        {/* Use the public api key you got from Copilot Cloud  */}
-        {/* <CopilotKit publicApiKey={import.meta.env.VITE_COPILOT_PUBLIC_API_KEY}>  */}
         <CopilotKit runtimeUrl={`${import.meta.env.VITE_BACKEND_URL}/api/v1/copilot`}>
           <App />
         </CopilotKit>
