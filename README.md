@@ -6,7 +6,10 @@ A web browser-based code sandbox for building scalable web applications in the c
 
 ### Demo
 
-![CodeX-IDE Demo](CodeX-IDE%20Demo.mov)
+![CodeX-IDE Demo](https://img.youtube.com/vi/DYJYtFtdlZg/0.jpg)](https://www.youtube.com/watch?v=DYJYtFtdlZg)
+
+### High Level System Design
+![HLD Diagram](https://github.com/Kinshuk2003/CodeX-IDE/blob/main/High-level-system-design.png)
 
 ## Features
 
