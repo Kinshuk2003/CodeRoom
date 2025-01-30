@@ -11,7 +11,7 @@ export const createProjectService = async ({projectName, language, framework}) =
         const projectId = uuid4();
         console.log("project id:", projectId);
         
-        await fs.mkdir(`.\\projects\\${projectId}`);
+        await fs.mkdir(`./projects/${projectId}`);
         // After this call the npm create vite project command inside the project folder.
         let languageFrameworkflag = `${framework}`;
         if (language === "typescript") {
@@ -22,7 +22,7 @@ export const createProjectService = async ({projectName, language, framework}) =
         console.log("react project command", command);
         const { stdout, stderr } = await execPromisified(command,
             {
-                cwd: `.\\projects\\${projectId}`,
+                cwd: `./projects/${projectId}`,
             }
         );
         return {stdout, stderr, projectId};
@@ -34,7 +34,7 @@ export const createProjectService = async ({projectName, language, framework}) =
 
 
 export const getProjectTreeService = async (projectId) => {
-    const projectPath = path.resolve(`.\\projects\\${projectId}`);
+    const projectPath = path.resolve(`./projects/${projectId}`);
     const tree =directoryTree(projectPath);
     return tree;
 }

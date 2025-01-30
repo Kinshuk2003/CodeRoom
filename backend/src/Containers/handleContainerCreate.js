@@ -32,7 +32,7 @@ export const handleContainerCreate = async (projectId, terminalSocket) => {
         console.log("Creating a new container");
 
         const container = await docker.createContainer({
-            Image: 'sandbox', // name given by us for the written dockerfile
+            Image: 'kinshuk2003/sandbox', // name given by us for the written dockerfile
             AttachStdin: true,
             AttachStdout: true,
             AttachStderr: true,
