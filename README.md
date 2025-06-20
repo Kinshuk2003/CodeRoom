@@ -1,4 +1,4 @@
-# CodeX-IDE
+# Code Room
 
 A web browser-based code sandbox for building scalable web applications in the cloud.
 
